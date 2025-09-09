@@ -27,26 +27,26 @@ if uploaded_file is not None:
         st.subheader("📸 Original Frame")
         st.image(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB), channels="RGB")
 
-        # Convert frame to depth map (AI simulation using torchvision)
+        # Convert frame
         st.subheader("🤖 AI Depth Estimation (Sample)")
         pil_image = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
         transform = T.Compose([T.Resize((256, 256)), T.ToTensor()])
         tensor_image = transform(pil_image).unsqueeze(0)
 
-        # Fake depth map (grayscale for now, could use real depth models)
+        
         depth_map = torch.mean(tensor_image, dim=1).squeeze().detach().numpy()
         st.image(depth_map, caption="Depth Map (Simulated)", use_container_width=True)
 
-        # Show VR 180 preview (our sample video)
+        
         st.subheader("🕶 VR 180 Preview (Simulated)")
-        vr_sample_path = "sample_video.mp4"  # Must be in same folder as app.py
+        vr_sample_path = "sample_video.mp4"  
 
         if os.path.exists(vr_sample_path):
             st.video(vr_sample_path)
         else:
             st.warning("⚠️ VR sample video not found. Please place 'sample_video.mp4' in the same folder as app.py.")
 
-        # Download option
+        
         with open(vr_sample_path, "rb") as file:
             st.download_button(
                 label="⬇️ Download VR 180 Video",
